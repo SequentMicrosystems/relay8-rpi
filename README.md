@@ -10,8 +10,8 @@ Before compiling you have to install [Wiring Pi](http://wiringpi.com/download-an
 
 ```bash
 ~$ git clone https://github.com/alexburcea2877/relay8-rpi.git
-~$ cd megaio-rpi/
-~/megaio-rpi$ sudo make install
+~$ cd relay8-rpi/
+~/relay8-rpi$ sudo make install
 ```
 
 Now you can access all the functions of the 8 Relay board through the command "relay8"
