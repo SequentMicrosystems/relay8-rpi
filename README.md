@@ -1,6 +1,6 @@
 [![relay8-rpi](readmeres/sequent.jpg)](https://www.sequentmicrosystems.com)
 
-# megaio-rpi
+# relay8-rpi
 
 This is the command to control [Raspberry Pi 8 Relay Board](https://www.sequentmicrosystems.com)
 
