@@ -7,9 +7,9 @@ This is the command to control [Raspberry Pi 8 Relay Board](https://www.sequentm
 Before compiling you have to install [Wiring Pi](http://wiringpi.com/download-and-install/), many thanks to Gordon Henderson for the library
 
 Don't forget to enable I2C communication:
-'''bash
+```bash
 ~$ sudo raspi-config
-'''
+```
 
 ## Usage
 
