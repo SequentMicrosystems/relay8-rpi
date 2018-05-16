@@ -22,7 +22,7 @@
 
 #define VERSION_BASE	(int)1
 #define VERSION_MAJOR	(int)0
-#define VERSION_MINOR	(int)0
+#define VERSION_MINOR	(int)1
 
 int gHwAdd = RELAY8_HW_I2C_BASE_ADD;
 
