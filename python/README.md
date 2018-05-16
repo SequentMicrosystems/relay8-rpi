@@ -34,8 +34,55 @@ return - [0..255]
 ### get(stack, relay)
 Return the state of one relay.
 
-stack - stack level of the relay8 card (selectable from address jumpers [0..7
+stack - stack level of the relay8 card (selectable from address jumpers [0..7])
 
 relay - relay number (id) [1..8]
 
 return - [0..1]
+
+## Usage example
+Browse to relay8-rpi python directory 
+
+```bash
+~$ cd relay8-rpi/python/
+```
+
+Start Python
+
+```bash
+~/relay8-rpi/python$ python
+Python 2.7.9 (default, Sep 17 2016, 20:26:04)
+[GCC 4.9.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+```
+Import library
+```bash
+>>> import relay8
+```
+Write one relay state ( turn on relay #3)
+
+```bash
+>>> relay8.set(0, 3, 1)
+```
+
+Read one relay state (read relay #3)
+
+```bash
+>>> relay8.get(0, 3)
+1
+```
+Read all relays state
+
+```bash
+>>> relay8.get_all(0)
+4
+```
+
+Write all relays state ( turn all ON and turn all OFF)
+
+```bash
+>>> relay8.set_all(0, 255)
+>>> relay8.set_all(0, 0)
+```
+
