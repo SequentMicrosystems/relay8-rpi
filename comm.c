@@ -174,7 +174,21 @@ int doBoardInit(int hwAdd)
 	return dev;
 }
 
-
+int boardCheck(int hwAdd)
+{
+	int dev, bV = -1;
+	dev = wiringPiI2CSetup (hwAdd);
+	if(dev == -1)
+	{
+		return FAIL;
+	}
+	bV = wiringPiI2CReadReg8 (dev, RELAY8_CFG_REG_ADD);
+	if(bV == -1)
+	{
+		return FAIL;
+	}
+	return OK;
+}
 /*
 * getLedVal
 * Get the value of leds 

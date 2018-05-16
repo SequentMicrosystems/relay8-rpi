@@ -31,6 +31,7 @@ int relayChSet(int dev, u8 channel, OutStateEnumType state);
 char *usage = "Usage:	 relay8 -h <command>\n"
 		"         relay8 -v\n"
 		"         relay8 -warranty\n"
+		"         relay8 -list\n"
 	    "         relay8 <id> write <channel> <on/off>\n"
 		"         relay8 <id> write <value>\n"
         "         relay8 <id> read <channel>\n" 
@@ -258,6 +259,12 @@ void doHelp(int argc, char *argv[])
 			printf("\tUsage:       relay8 <id> read\n");
 			printf("\tExample:     relay8 0 read 2; Read Status of Relay #2 on Board #0\n"); 
 		}
+		else if (strcasecmp (argv [2], "-list"     ) == 0)	
+		{ 
+			printf("\t-list:       List all relay8 boards connected,\n\treturn nr of boards and stack level for every board\n");
+			printf("\tUsage:       relay8 -list\n");
+			printf("\tExample:     relay8 -list display: 1,0 \n"); 
+		}
 		else
 		{
 			printf("Invalid command!\n");
@@ -279,6 +286,28 @@ static void doVersion(void)
 
 }
 
+static void doList(void)
+{
+	int ids[8];
+	int i;
+	int cnt = 0;
+	
+	for (i = 0; i< 8; i++)
+	{
+		if(boardCheck(RELAY8_HW_I2C_BASE_ADD + i) == OK)
+		{
+			ids[cnt]= i;
+			cnt++;
+		}
+	}
+	printf("%d", cnt);
+	while(cnt > 0)
+	{
+		cnt--;
+		printf(",%d", ids[cnt]);
+	}
+	printf("\n");
+}
 
 /* 
 * Self test for production
@@ -435,6 +464,11 @@ int main(int argc, char *argv [])
     return 0;
   }
 
+  if (strcasecmp (argv [1], "-list") == 0)
+  {
+    doList();
+    return 0;
+  }
   
   if(argc < 3)
   {

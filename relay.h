@@ -43,5 +43,5 @@ int doBoardInit(int hwAdd);
 int getLedVal(int chip);
 int setLedVal(int chip, int val);
 void busyWait(int ms);
-
+int boardCheck(int hwAdd);
 #endif //RELAY8_H_
