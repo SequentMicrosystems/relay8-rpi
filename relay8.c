@@ -333,8 +333,7 @@ static void doTest(int argc, char* argv[])
 			printf( "Fail to open result file\n");
 			//return -1;
 		}
-	}
-	
+	}	
 //relay test****************************	
 	if (strcasecmp( argv[2], "test") == 0)
 	{

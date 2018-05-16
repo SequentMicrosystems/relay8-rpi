@@ -28,8 +28,6 @@ typedef enum
 	ON
 } OutStateEnumType;
 
-
-
 void startThread(void);
 int checkThreadResult(void);
 int readReg16(int dev, int add);

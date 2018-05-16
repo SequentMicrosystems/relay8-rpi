@@ -189,6 +189,7 @@ int boardCheck(int hwAdd)
 	}
 	return OK;
 }
+
 /*
 * getLedVal
 * Get the value of leds 
