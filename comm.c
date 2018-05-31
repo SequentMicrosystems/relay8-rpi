@@ -151,6 +151,7 @@ int writeReg24(int dev, int add, int val)
 int doBoardInit(int hwAdd)
 {
 	int dev, bV = -1;
+  hwAdd ^= 0x07; 
 	dev = wiringPiI2CSetup (hwAdd);
 	if(dev == -1)
 	{
@@ -177,6 +178,7 @@ int doBoardInit(int hwAdd)
 int boardCheck(int hwAdd)
 {
 	int dev, bV = -1;
+   hwAdd ^= 0x07; 
 	dev = wiringPiI2CSetup (hwAdd);
 	if(dev == -1)
 	{

@@ -21,12 +21,17 @@
 
 
 #define VERSION_BASE	(int)1
-#define VERSION_MAJOR	(int)0
-#define VERSION_MINOR	(int)2
+#define VERSION_MAJOR	(int)1
+#define VERSION_MINOR	(int)0
+
+const u8 relayMaskRemap[8] = {0x01, 0x02, 0x04, 0x08, 0x80, 0x40, 0x20, 0x10}; 
+const int relayChRemap[8] = {0, 1, 2, 3, 7, 6, 5, 4};
 
 int gHwAdd = RELAY8_HW_I2C_BASE_ADD;
 
 int relayChSet(int dev, u8 channel, OutStateEnumType state);
+u8 relayToIO(u8 relay);
+u8 IOToRelay(u8 io);
 
 char *usage = "Usage:	 relay8 -h <command>\n"
 		"         relay8 -v\n"
@@ -55,7 +60,31 @@ char *warranty ="	       Copyright (c) 2016-2018 Sequent Microsystems\n"
 				"			\n"
 				"		You should have received a copy of the GNU Lesser General Public License\n"
 				"		along with this program. If not, see <http://www.gnu.org/licenses/>.";
-				
+u8 relayToIO(u8 relay)
+{
+	u8 i; 
+	u8 val = 0;
+	for(i = 0; i<8; i++)
+	{
+		if((relay & (1 << i)) != 0)
+			val += relayMaskRemap[i];
+	}
+	return val;
+}
+
+u8 IOToRelay(u8 io)
+{
+	u8 i;
+	u8 val = 0;
+	for(i = 0; i< 8; i++)
+	{
+		if((io & relayMaskRemap[i]) != 0)
+		{
+			val += 1 << i;
+		}
+	}
+	return val;
+}
 
 int relayChSet(int dev, u8 channel, OutStateEnumType state)
 {
@@ -71,11 +100,11 @@ int relayChSet(int dev, u8 channel, OutStateEnumType state)
 	switch(state)
 	{
 	case OFF:
-		val &= ~(1 << (channel - 1));
+		val &=~(1 << relayChRemap[channel - 1]);
 		resp = writeReg8(dev,RELAY8_OUTPORT_REG_ADD, val);
 		break;
 	case ON:
-		val |= 1 << (channel - 1);
+		val |= 1 << relayChRemap[channel - 1];
 		resp = writeReg8(dev,RELAY8_OUTPORT_REG_ADD, val);
 		break;
 		
@@ -132,14 +161,14 @@ static void doRelayWrite(int argc, char *argv[])
 		relayChSet(dev, pin, val);
 		valR = readReg8(dev, RELAY8_INPORT_REG_ADD);
 		
-		valRmask = 0x01 & (valR >> (pin - 1));
+		valRmask = 0x01 & (valR >> relayChRemap[pin - 1]);
 		retry = RETRY_TIMES;
 
 		while((retry > 0) && (valRmask != val))
 		{
 			relayChSet(dev, pin, val);
 			valR = readReg8(dev, RELAY8_INPORT_REG_ADD);
-			valRmask = 0x01 & (valR >> (pin - 1));
+			valRmask = 0x01 & (valR >> relayChRemap[pin - 1]);
 			retry--;
 		}
 		#ifdef DEBUG_I
@@ -162,10 +191,12 @@ static void doRelayWrite(int argc, char *argv[])
 			printf( "Invalid relay value\n");
 			exit(1);
 		}
+		val = relayToIO(val);
 		retry = RETRY_TIMES;
 		valR = -1;
 		while((retry > 0) && (valR != val))
-		{			
+		{
+				
 			writeReg8(dev, RELAY8_OUTPORT_REG_ADD, val);
 			valR = readReg8(dev, RELAY8_INPORT_REG_ADD);
 		}
@@ -207,7 +238,7 @@ static void doRelayRead(int argc, char *argv[])
 			printf("Fail to read\n");
 			exit(1);
 		}
-
+		val = IOToRelay(val);
 		val = val & (1 << (pin-1));
 		if(val != 0)
 		{
@@ -226,6 +257,7 @@ static void doRelayRead(int argc, char *argv[])
 			printf("Fail to read\n");
 			exit(1);
 		}
+		val = IOToRelay(val);
 		printf("%d\n", val);
 	}
 	else
@@ -357,6 +389,7 @@ static void doTest(int argc, char* argv[])
 				{
 					relayChSet(dev, relayOrder[i], 1);	
 					valR = readReg8(dev, RELAY8_INPORT_REG_ADD);
+					valR = IOToRelay(valR);
 				}
 				if(retry == 0)
 				{
@@ -384,6 +417,7 @@ static void doTest(int argc, char* argv[])
 				{
 					relayChSet(dev, relayOrder[i], 0);	
 					valR = readReg8(dev, RELAY8_INPORT_REG_ADD);
+					valR = IOToRelay(valR);
 				}
 				if(retry == 0)
 				{
