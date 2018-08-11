@@ -34,8 +34,8 @@ PI_THREAD (waitForKey)
  char resp;
  int respI = NO;
 
- 
 	struct termios info;
+ 
 	tcgetattr(0, &info);          /* get current terminal attirbutes; 0 is the file descriptor for stdin */
 	info.c_lflag &= ~ICANON;      /* disable canonical mode */
 	info.c_cc[VMIN] = 1;          /* wait until at least one keystroke available */
@@ -68,6 +68,7 @@ void startThread(void)
 int checkThreadResult(void)
 {
 	int res;
+ 
 	piLock (COUNT_KEY) ;
 	res = globalResponse;
 	piUnlock(COUNT_KEY);
@@ -151,8 +152,10 @@ int writeReg24(int dev, int add, int val)
 int doBoardInit(int hwAdd)
 {
 	int dev, bV = -1;
-  hwAdd ^= 0x07; 
-	dev = wiringPiI2CSetup (hwAdd);
+  int add;
+  
+  add = hwAdd ^ 0x07; 
+	dev = wiringPiI2CSetup (add);
 	if(dev == -1)
 	{
 		return ERROR;
@@ -178,7 +181,8 @@ int doBoardInit(int hwAdd)
 int boardCheck(int hwAdd)
 {
 	int dev, bV = -1;
-   hwAdd ^= 0x07; 
+ 
+  hwAdd ^= 0x07; 
 	dev = wiringPiI2CSetup (hwAdd);
 	if(dev == -1)
 	{

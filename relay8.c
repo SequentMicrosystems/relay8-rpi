@@ -22,7 +22,7 @@
 
 #define VERSION_BASE	(int)1
 #define VERSION_MAJOR	(int)1
-#define VERSION_MINOR	(int)0
+#define VERSION_MINOR	(int)1
 
 const u8 relayMaskRemap[8] = {0x01, 0x02, 0x04, 0x08, 0x80, 0x40, 0x20, 0x10}; 
 const int relayChRemap[8] = {0, 1, 2, 3, 7, 6, 5, 4};
@@ -332,11 +332,15 @@ static void doList(void)
 			cnt++;
 		}
 	}
-	printf("%d", cnt);
+	printf("%d board(s) detected\n", cnt);
+  if(cnt > 0)
+  {
+    printf("Id:");
+  }
 	while(cnt > 0)
 	{
 		cnt--;
-		printf(",%d", ids[cnt]);
+		printf(" %d", ids[cnt]);
 	}
 	printf("\n");
 }
