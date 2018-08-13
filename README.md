@@ -14,7 +14,7 @@ Don't forget to enable I2C communication:
 ## Usage
 
 ```bash
-~$ git clone https://github.com/alexburcea2877/relay8-rpi.git
+~$ git clone https://github.com/SequentMicrosystems/relay8-rpi.git
 ~$ cd relay8-rpi/
 ~/relay8-rpi$ sudo make install
 ```
