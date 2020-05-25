@@ -2,7 +2,8 @@
 
 # relay8-rpi
 
-This is the command to control [Raspberry Pi 8 Relay Board](https://www.sequentmicrosystems.com)
+This is the command line and python functions to control the Sequent Microsystems 8 Relay Card for Raspberry PI Ver. 1 - 2. If you have Ver. 3 with pluggable connectors, download from 
+https://github.com/SequentMicrosystems/8relay-rpi
 
 Before compiling you have to install [Wiring Pi](http://wiringpi.com/download-and-install/), many thanks to Gordon Henderson for the library
 
