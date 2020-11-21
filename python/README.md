@@ -1,9 +1,9 @@
 
-[![relay8-rpi](res/sequent.jpg)](https://www.sequentmicrosystems.com/megaio.html)
+[![relay8-rpi](res/sequent.jpg)](https://www.sequentmicrosystems.com)
 
 # relay8.py
 
-This is the python library to control [Raspberry Pi 8 Relay Board](https://www.sequentmicrosystems.com)
+This is the python library to control old Raspberry Pi [Relay 8 Board](https://www.sequentmicrosystems.com)
 
 Before use you have to install python smbus library
 
